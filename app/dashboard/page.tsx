@@ -5,7 +5,7 @@ import { Home, Users, Settings, Bell, Search } from "lucide-react"
 import { ArrowUpRight, Clock, Target, FileText, Calendar, Mail } from "lucide-react"
 import Image from "next/image"
 
-const NavItem = ({ icon, text, active = false }) => {
+const NavItem = ({ icon, text, active = false }: { icon: React.ReactNode; text: string; active?: boolean }) => {
   return (
     <a href="#" className="group relative px-4 py-2">
       <div className="flex items-center space-x-2.5 text-black/80 group-hover:text-black transition-all">

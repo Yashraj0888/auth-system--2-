@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button"
 
 const SignUpForm = () => {
   return (
-    <div className="min-h-screen bg-gray-300 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl w-full h-full space-y-8 bg-white p-8 rounded-2xl shadow-lg flex gap-8 relative">
+    <div className="min-h-screen  flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl w-full h-full space-y-8 p-8 rounded-2xl shadow-2xl flex gap-8 relative">
         {/* Left side - Form */}
         <div className="flex-1 mt-10">
           <div className="">

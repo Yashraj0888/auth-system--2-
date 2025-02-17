@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -15,14 +14,16 @@ export default function AuthForm() {
   const [isOtpSent, setIsOtpSent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [simulatedOtp, setSimulatedOtp] = useState<string | null>(null)
+  const [showAlert, setShowAlert] = useState(false)
 
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setSimulatedOtp(null)
+    setShowAlert(false)
 
     if (!email.endsWith("@aganitha.ai")) {
-      toast.error("Please use an @aganitha.ai email address.")
+      setShowAlert(true)
       setLoading(false)
       return
     }
@@ -39,9 +40,7 @@ export default function AuthForm() {
       if (res.ok) {
         setIsOtpSent(true)
         toast.success(data.message)
-        if (email.endsWith("@aganitha.ai")) {
-          setSimulatedOtp("123456") // Set a fixed OTP for simulation
-        }
+        setSimulatedOtp("123456") // Set a fixed OTP for simulation
       } else {
         throw new Error(data.error || "Failed to send OTP")
       }
@@ -65,7 +64,6 @@ export default function AuthForm() {
 
       if (res.ok) {
         toast.success("Successfully verified!")
-        // Redirect to dashboard or home page
         window.location.href = "/dashboard"
       } else {
         throw new Error("Invalid OTP")
@@ -90,7 +88,7 @@ export default function AuthForm() {
               id="email"
               type="email"
               placeholder="Enter your company email"
-              className="pl-10 w-full "
+              className="pl-10 w-full placeholder:text-gray-500 text-gray-600 border-black border-2"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isOtpSent}
@@ -110,7 +108,7 @@ export default function AuthForm() {
                 id="otp"
                 type="text"
                 placeholder="Enter 6-digit OTP"
-                className="pl-10 w-full"
+                className="pl-10 w-full  placeholder:text-gray-500 text-gray-600 border-black border-2"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
                 maxLength={6}
@@ -121,8 +119,11 @@ export default function AuthForm() {
           </div>
         )}
 
-        <Button type="submit" className="w-full bg-black rounded-md hover:bg-gray-900 justify-center items-center" 
-        disabled={loading}>
+        <Button
+          type="submit"
+          className="w-full bg-black text-white rounded-md hover:bg-gray-900 justify-center items-center"
+          disabled={loading}
+        >
           {loading ? (
             <>
               <Loader2 className="animate-spin mr-2" />
@@ -138,12 +139,15 @@ export default function AuthForm() {
 
       {simulatedOtp && (
         <div className="mt-4 p-4 bg-green-400/70 border border-blue-300 rounded-md">
-          <p className="text-s">
-            Email sent succesfully Kindly check your Aganitha email for otp
-          </p>
+          <p className="text-s">Email sent successfully. Kindly check your Aganitha email for the OTP.</p>
+        </div>
+      )}
+
+      {showAlert && (
+        <div className="mt-4 p-4 bg-red-600 text-white rounded-md text-center">
+          <p>Login possible with company email only</p>
         </div>
       )}
     </div>
   )
 }
-
